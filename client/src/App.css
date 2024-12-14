@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    font-family: 'Roboto', sans-serif,monospace;
+}
+
+
+@layer utilities{
+    .search-box{
+        @apply border-2 border-gray-300 rounded-lg p-2;
+    }
+
+    .flex-center{
+        @apply flex justify-center;
+    }
+
+    .input{
+        @apply w-96 h-10 p-2 border-2 rounded-lg my-2 ;
+    }
+
+    label{
+        @apply text-lg font-normal;
+    }
+}
