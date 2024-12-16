@@ -1,0 +1,91 @@
+# Django
+*.pyc
+*.pyo
+__pycache__/
+db.sqlite3
+media/
+*.log
+*.pot
+*.mo
+local_settings.py
+.env
+*.~*
+
+# Migrations
+**/migrations/
+!**/migrations/__init__.py
+
+# Django static files
+staticfiles/
+static/
+
+# React
+node_modules/
+build/
+dist/
+.cache/
+*.log
+*.gz
+*.zip
+*.tar
+
+# Environment variables
+.env.local
+.env.development
+.env.production
+.env.*.local
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*~
+*.sublime-workspace
+*.sublime-project
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*.pid
+*.seed
+*.orig
+
+# Logs
+logs/
+*.log
+
+# Coverage reports
+.coverage
+htmlcov/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Test results
+junit*.xml
+test-results/
+
+# Deployment
+*.key
+*.pem
+
+# Yarn / npm
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
