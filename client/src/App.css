@@ -2,25 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-    font-family: 'Roboto', sans-serif,monospace;
+* {
+  font-family: 'Roboto', sans-serif, monospace;
 }
 
 
-@layer utilities{
-    .search-box{
-        @apply border-2 border-gray-300 rounded-lg p-2;
-    }
+@layer utilities {
+  .search-box {
+    @apply border-2 border-gray-300 rounded-lg p-2;
+  }
 
-    .flex-center{
-        @apply flex justify-center;
-    }
+  .flex-center {
+    @apply flex justify-center;
+  }
 
-    .input{
-        @apply w-96 h-10 p-2 border-2 rounded-lg my-2 ;
-    }
+  .input {
+    @apply w-96 h-10 p-2 border-2 rounded-lg my-2 border-gray-600; 
+  }
 
-    label{
-        @apply text-lg font-normal;
-    }
+  label {
+    @apply text-lg font-normal;
+  }
+}
+
+body{
+  background-color: rgb(231, 231, 231);
+}
+
+input{
+  background-color: rgb(231, 231, 231);
 }

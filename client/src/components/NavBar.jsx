@@ -1,8 +1,24 @@
-import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import useAuth from "../context/useAuth";
 
 const NavBar = () => {
-	const [isAuth, setIsAuth] = useState(false);
+	const navigate = useNavigate();
+	const {logout} = useAuth()
+
+	const isAuth = () =>{
+		
+
+		const token = localStorage.getItem('authtoken')
+		if(token){
+			return true
+		}		
+	}
+
+	
+
+
+
+
 	return (
 		<nav className="flex justify-between p-4 shadow-sm">
 			<Link to="/">
@@ -13,14 +29,12 @@ const NavBar = () => {
 					<Link to="/">Home</Link>
 				</li>
 				<li className="hover:opacity-70">
-					<Link to="/note">Notes</Link>
-				</li>
-				<li className="hover:opacity-70">
 					<Link to="/about">About</Link>
 				</li>
 				<li className="hover:opacity-70">
-					{isAuth ? (
-						<Link to="/logout">Logout</Link>
+					{isAuth() ? (
+						// <button to="/dashboard">Dashboard</button>
+						<button onClick={(e) => logout(e)}>Logout</button>
 					) : (
 						<Link to="/login">Login</Link>
 					)}

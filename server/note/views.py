@@ -1,8 +1,9 @@
 from .serializer import NoteSerializer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .models import Note
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 
 # Create your views here.
 
@@ -10,6 +11,7 @@ from rest_framework import status
 
 # create
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def CreateNoteView(request):
     serializer = NoteSerializer(data=request.data)
 
@@ -21,15 +23,17 @@ def CreateNoteView(request):
 
 # read
 @api_view(['GET'])
-def NoteView(request):
-    notes = Note.objects.all()
+@permission_classes([AllowAny])
+def NoteView(request, user_id):
+    notes = Note.objects.filter(user_id=user_id)
     serializer = NoteSerializer(notes, many=True)
     return Response(serializer.data)
 
 # read 
 @api_view(['GET'])
-def NoteDetail(request, id):
-    note = Note.objects.filter(id=id).first()
+@permission_classes([AllowAny])
+def NoteDetail(request,user_id, id):
+    note = Note.objects.filter(user_id=user_id,id=id).first()
 
     if note:
         serializer = NoteSerializer(note)
@@ -40,7 +44,7 @@ def NoteDetail(request, id):
 
 # update 
 @api_view(['PATCH'])
-def updateNoteView(request, id):
+def updateNoteView(request,id):
     note = Note.objects.filter(id=id).first()
 
     if Note:

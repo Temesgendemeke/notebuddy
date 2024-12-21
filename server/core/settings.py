@@ -1,5 +1,6 @@
 from pathlib import Path
 import environ
+from datetime import timedelta
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -19,7 +20,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=True)
 
-ALLOWED_HOSTS = env.list("ALLOW_HOSTS", default=[])
+ALLOWED_HOSTS = env.list("ALLOW_HOSTS", default=['*'])
 
 
 # Application definition
@@ -32,8 +33,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "rest_framework.authtoken",
     "corsheaders",
+    'rest_framework_simplejwt.token_blacklist',
     # local
     "account.apps.AccountConfig",
     "note.apps.NoteConfig",
@@ -134,9 +135,23 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.TokenAuthentication",
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+      ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
     ],
 }
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=90),
+    'ROTATE_REFRESH_TOKENS': True,  # Rotate refresh tokens after use
+    'BLACKLIST_AFTER_ROTATION': True,  # Blacklist old refresh tokens
+    'AUTH_HEADER_TYPES': ('Bearer',),  # Use 'Bearer <token>'
+    'UPDATE_LAST_LOGIN': True,  # Update last login on refresh
+}
+
 
 AUTH_USER_MODEL = 'account.CustomUser'

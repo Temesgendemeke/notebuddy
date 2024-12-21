@@ -5,7 +5,7 @@ from . import views
 
 
 urlpatterns = [
-    path("", views.NoteView, name="note"),
+    path("<int:id>", views.NoteView, name="note"),
     path("create", views.CreateNoteView, name="create note"),
     path("<int:id>", views.NoteDetail, name="note detail"),
     path("<int:id>/update", views.updateNoteView, name="update note"),

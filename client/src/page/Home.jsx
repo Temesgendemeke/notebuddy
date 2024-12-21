@@ -1,15 +1,18 @@
-import React from "react";
-import NoteCard from "../components/NoteCard";
 import NavBar from "../components/NavBar";
-import Hero from "../components/Hero";
 import Search from "../components/Search";
+import useAuth from "../context/useAuth";
+
 
 const Home = () => {
+  const {userId} = useAuth()
+  
+  
+  console.log("dfdfd", userId)
+
   return (
-    <div class="relative">
+    <div >
       <NavBar />
       <Search />
-
     </div>
   );
 };

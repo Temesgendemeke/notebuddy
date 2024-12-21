@@ -5,4 +5,12 @@ export default defineConfig({
   plugins: [
     react(),
   ],
+  resolve: {
+    alias: {
+      // Exclude server-side only modules
+      'fs': false,
+      'express': false,
+      // Add other modules as needed
+    },
+  },
 })

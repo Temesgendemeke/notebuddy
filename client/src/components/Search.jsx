@@ -3,17 +3,20 @@ import React, { useEffect, useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import NoteCard from "./NoteCard";
 import { Link } from "react-router";
+import useAuth from "../context/useAuth";
 
 const Search = () => {
+  const {userId} = useAuth;
   const [show, setShow] = useState(false);
   const [notes, setNotes] = useState([]);
   const [filteredNotes, setFilteredNotes] = useState([]);
-
+  
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/posts")
+    fetch(`http://127.0.0.1:8000/${userId}/note/`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data)
         setNotes(data)
         setFilteredNotes(data)
       });
@@ -48,7 +51,7 @@ const Search = () => {
       </div>
 
       <div className="mt-2 notecard-wrapper flex gap-5 justify-center items-center flex-wrap">
-        {filteredNotes.map((note) => (
+        {filteredNotes.reverse().map((note) => (
           <NoteCard key={note.id} note={note} />
         ))}
         {filteredNotes.length === 0 && <p>No Notes Found</p>}
