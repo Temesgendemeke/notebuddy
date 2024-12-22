@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import { Link, redirect, useNavigate } from "react-router";
+import { Link, redirect, useNavigate, useLocation } from "react-router";
 import useAuth from "../context/useAuth";
 
 const Signup = () => {
@@ -20,6 +20,16 @@ const Signup = () => {
 		password: "",
 		confirm_password: "",
 	});
+	const [formError, setFormError] = useState({
+		email:'',
+		password:'',
+		confirm_password:''
+	})
+
+	
+	useEffect(()=>{
+		setFormError({})
+	}, [form])
 	
 
 	useEffect(() => {
@@ -27,6 +37,37 @@ const Signup = () => {
 			.querySelector(".close")
 			.addEventListener("keydown", (event) => handleKeyDown(event));
 	});
+
+
+
+
+	const validateForm = () => {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+		if (!form.email){
+			setFormError((prev)=>({...prev, email:"email is required"}))
+		}
+
+		if(!emailRegex.test(form.email)){
+			setFormError((prev)=>({...prev, email:"Invalid email address"}))
+		}
+
+		if(!form.password){
+			setFormError((prev)=>({...prev, password:"password is required"}))
+		}
+
+		if(!form.confirm_password){
+			setFormError((prev)=>({...prev, confirm_password:"confirm password is required"}))
+			return
+		}
+
+		if (form.password != form.confirm_password) {
+			setError({ message: "password doest match", show: true });
+			return;
+		}
+
+		return true	
+	}
 
 	const handleKeyDown = (event) => {
 		if (event.key == "Escape") {
@@ -37,11 +78,10 @@ const Signup = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		if (form.password != form.confirm_password) {
-			setError({ message: "password doest match", show: true });
-			return;
+		if (!validateForm()){
+			return
 		}
-
+		
 		const res = await fetch("http://127.0.0.1:8000/signup", {
 			method: "POST",
 			headers: {
@@ -113,6 +153,7 @@ const Signup = () => {
 							}))
 						}
 					></input>
+					<p className="error-msg">{formError.email}</p>
 					<label htmlFor="password">password:</label>
 					<input
 						type="password"
@@ -127,6 +168,7 @@ const Signup = () => {
 							}))
 						}
 					/>
+					<p className="error-msg">{formError.password}</p>
 					<label htmlFor="confirm password">confirm password:</label>
 					<input
 						type="password"
@@ -141,6 +183,7 @@ const Signup = () => {
 							}))
 						}
 					/>
+					<p className="error-msg text-red-400">{formError.confirm_password}</p>
 					<input
 						type="submit"
 						value="Signup"

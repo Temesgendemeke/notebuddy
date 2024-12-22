@@ -1,16 +1,22 @@
 import { useContext, useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate} from "react-router";
 import useAuth from "../context/useAuth";
 
 
+
 const Login = () => {
-	const {save_authtoken,  error, handleFormChange} = useAuth();
+	const {save_authtoken,  error, handleFormChange, setError} = useAuth();
 	const navigate = useNavigate();
 	const [form, setForm] = useState({
 		email: "",
 		password: "",
 	});
+
+	
+
+
+
 	
 	const login_btn = async (e) => {
 		e.preventDefault();

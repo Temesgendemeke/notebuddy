@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .models import Note
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 # Create your views here.
 
@@ -23,15 +23,15 @@ def CreateNoteView(request):
 
 # read
 @api_view(['GET'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def NoteView(request, user_id):
-    notes = Note.objects.filter(user_id=user_id)
+    notes = Note.objects.filter(user=request.user)
     serializer = NoteSerializer(notes, many=True)
     return Response(serializer.data)
 
 # read 
 @api_view(['GET'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def NoteDetail(request,user_id, id):
     note = Note.objects.filter(user_id=user_id,id=id).first()
 
@@ -44,8 +44,9 @@ def NoteDetail(request,user_id, id):
 
 # update 
 @api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
 def updateNoteView(request,id):
-    note = Note.objects.filter(id=id).first()
+    note = Note.objects.filter(user=request.user, id=id).first()
 
     if Note:
         serializer = NoteSerializer(note, data=request.data, partial=True)
@@ -58,6 +59,7 @@ def updateNoteView(request,id):
 
 # delete
 @api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
 def deleteNoteView(request, id):
     note = Note.objects.filter(pk=id).first()
      
@@ -69,8 +71,6 @@ def deleteNoteView(request, id):
     
 
 
-# auth
-    
 
 
 
