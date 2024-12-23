@@ -8,25 +8,30 @@ import { MdDelete } from "react-icons/md";
 import useAuth from "../context/useAuth";
 
 const Note = () => {
-	const {userId} = useAuth();
+	const { userId, token } = useAuth();
 	const location = useLocation();
 	const navigate = useNavigate();
 	const [noteId, setNoteId] = useState();
 	const [mode, setMode] = useState("create");
 	const [note, setNote] = useState({
-		title:'',
-		content:''
+		title: "",
+		content: "",
 	});
 
 
+
+
 	useEffect(() => {
-		console.log("dsdss ", userId)
 		const fetchNote = async () => {
 			if (location.state) {
-				const id = location.state.id;
-				const res = await fetch(`http://127.0.0.1:8000/${userId}/note/${id}`);
+				const res = await fetch(`http://127.0.0.1:8000/note/`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
 				const data = await res.json();
-				setNote({title:data.title, content:data.title})
+				console.log(data)
+				setNote({ title: data.title, content: data.title });
 				setNoteId(data.id);
 				setMode("update");
 			}
@@ -38,30 +43,27 @@ const Note = () => {
 	const handleUpdate = async (e) => {
 		e.preventDefault();
 
-		await fetch(
-			`http://127.0.0.1:8000/note/${location.state.id}/update`,
-			{
-				method: "PATCH",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					title: note.title,
-					content: note.content,
-				}),
-			}
-		);
-		navigate("/");
+		await fetch(`http://127.0.0.1:8000/note/${noteId}/update`, {
+			method: "PATCH",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				title: note.title,
+				content: note.content,
+			}),
+		});
+		navigate("/home");
 	};
 
 	const handleCreate = async (e) => {
 		e.preventDefault();
 
 		if (note.content.trim() === "") {
-			navigate("/");
+			navigate("/home");
 			return;
 		}
-        
+
 		await fetch(`http://127.0.0.1:8000/note/create`, {
 			method: "POST",
 			headers: {
@@ -70,22 +72,19 @@ const Note = () => {
 			body: JSON.stringify({
 				title: note.title,
 				content: note.content,
-				user:userId
+				user: userId,
 			}),
 		});
-		navigate("/");
+		navigate("/home");
 	};
 
 	const handleDelete = async (e) => {
 		e.preventDefault();
 
-	    await fetch(
-			`http://127.0.0.1:8000/note/${noteId}/delete`,
-			{
-				method: "DELETE",
-			}
-		);
-		navigate('/')
+		await fetch(`http://127.0.0.1:8000/note/${noteId}/delete`, {
+			method: "DELETE",
+		});
+		navigate("/home");
 	};
 
 	return (
@@ -109,7 +108,12 @@ const Note = () => {
 						placeholder="enter title"
 						className="mb-2 h-10 px-2 w-full border-2 border-gray-300"
 						value={note.title}
-						onChange={(e) => setNote((prev) =>({...prev, title:e.target.value}))}
+						onChange={(e) =>
+							setNote((prev) => ({
+								...prev,
+								title: e.target.value,
+							}))
+						}
 					/>
 
 					<div className="delete-btn">
@@ -125,7 +129,9 @@ const Note = () => {
 				<ReactQuill
 					theme="snow"
 					value={note.content}
-					onChange={(content) => setNote((prev) => ({...prev, content}))}
+					onChange={(content) =>
+						setNote((prev) => ({ ...prev, content }))
+					}
 					className="h-screen"
 				/>
 			</div>

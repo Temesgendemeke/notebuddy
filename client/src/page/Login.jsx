@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { Link, useNavigate} from "react-router";
 import useAuth from "../context/useAuth";
@@ -35,10 +35,10 @@ const Login = () => {
 		const data = await res.json();
 
 		if (res.ok) {
-			save_authtoken(data)
-			navigate('/')
+			save_authtoken({'access':data.access, 'refresh':data.refresh})
+			navigate('/home')
 		}else{
-			Object.entries(data).map(([key , value]) =>{
+			Object.entries(data).map(([, value]) =>{
 				setError({message:value, show:true})
 			})
 		}
@@ -61,7 +61,7 @@ const Login = () => {
 					</p>
 				)}
 				<form
-					action="/"
+					action="/home"
 					method="post"
 					className="flex flex-col p-5"
 					onSubmit={login_btn}
@@ -94,7 +94,7 @@ const Login = () => {
 					/>
 					<span className="text-center">
 						{" "}
-						if you don't have an account,{" "}
+						if you don&apos;t have an account,{" "}
 						<Link to="/signup">Signup</Link>
 					</span>
 				</form>

@@ -15,7 +15,7 @@ const App = () => {
 				<Route path="/" element={<LandingPage/>}></Route>
 				<Route element={<PrivateRoute />}>
 					<Route
-						path="/"
+						path="/home"
 						element={<Home/>}
 					></Route>
 					<Route

@@ -1,13 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import { Link, redirect, useNavigate, useLocation } from "react-router";
+import { Link, redirect, useNavigate} from "react-router";
 import useAuth from "../context/useAuth";
 
 const Signup = () => {
 	const {
-		setUserId,
-		save_userId,
-		user,
 		save_authtoken,
 		setUser,
 		error,
@@ -96,11 +93,11 @@ const Signup = () => {
 		const data = await res.json();
 
 		if (res.ok) {
-			save_authtoken(data.token);
+			save_authtoken({'access':data.access, 'refresh':data.refresh})
 			setUser(data.user);
-			navigate('/')
+			navigate('/home')
 		}else{
-			Object.entries(data).map(([key, value]) =>{
+			Object.entries(data).map(([, value]) =>{
 				setError({message:value.join(''), show:true})
 			})
 		}

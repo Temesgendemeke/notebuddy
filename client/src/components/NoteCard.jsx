@@ -1,8 +1,6 @@
 import PropTypes from "prop-types";
 import DOMPurify from "dompurify";
-import { Link, useNavigate, useLocation } from "react-router";
-import { useState } from "react";
-import { MdDelete } from "react-icons/md";
+import { useNavigate} from "react-router";
 import formatdate from "../utils/formatdate";
 
 const NoteCard = ({ note }) => {
@@ -13,6 +11,7 @@ const NoteCard = ({ note }) => {
 	};
 
 	const handleClick = (e) => {
+		e.preventDefault()
 		navigate("/note", { state: { id: note.id } });
 	};
 
@@ -35,7 +34,9 @@ const NoteCard = ({ note }) => {
 				></div>
 
 				<div>
-					<span className="text-gray-400 text-[12px]">{formatdate(note.updated_at)}</span>
+					<span className="text-gray-400 text-[12px]">
+						{formatdate(note.updated_at)}
+					</span>
 				</div>
 			</div>
 		</>
@@ -44,8 +45,10 @@ const NoteCard = ({ note }) => {
 
 NoteCard.propTypes = {
 	note: PropTypes.shape({
+		id: PropTypes.number.isRequired,
 		title: PropTypes.string.isRequired,
 		content: PropTypes.string.isRequired,
+		updated_at: PropTypes.string,
 	}).isRequired,
 };
 

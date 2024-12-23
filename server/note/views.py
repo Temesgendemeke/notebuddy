@@ -23,9 +23,10 @@ def CreateNoteView(request):
 
 # read
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def NoteView(request, user_id):
+@permission_classes([AllowAny])
+def NoteView(request):
     notes = Note.objects.filter(user=request.user)
+    print(notes)
     serializer = NoteSerializer(notes, many=True)
     return Response(serializer.data)
 

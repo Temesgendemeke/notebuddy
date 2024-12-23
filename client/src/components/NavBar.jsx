@@ -1,16 +1,13 @@
-import { Link, useNavigate} from "react-router";
+import { Link} from "react-router";
 import useAuth from "../context/useAuth";
 import { FiMenu } from "react-icons/fi";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const NavBar = () => {
-	const navigate = useNavigate();
 	const {logout} = useAuth()
 	const [isOpen, setIsOpen] = useState(false);
 
 	const isAuth = () =>{
-		
-
 		const token = localStorage.getItem('authtoken')
 		if(token){
 			return true
@@ -25,7 +22,7 @@ const NavBar = () => {
 			</Link>
 			<ul className="capitalize gap-x-4  cursor-pointer hidden sm:flex">
 				<li className="hover:opacity-70">
-					<Link to="/">Home</Link>
+					<Link to="/home">Home</Link>
 				</li>
 				<li className="hover:opacity-70">
 					<Link to="/about">About</Link>
@@ -43,7 +40,7 @@ const NavBar = () => {
 			{(isOpen) && (
 				<ul className="menu font-sans cursor-pointer  bg-slate-50 absolute right-0 p-2 z-10 top-16 w-full text-[16px]">
 					<li>
-						<Link to="/" className="block">Home</Link>
+						<Link to="/home" className="block">Home</Link>
 					</li>
 					<li>
 						<Link to="/about" className="block">About</Link>

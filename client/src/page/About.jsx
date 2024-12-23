@@ -1,14 +1,19 @@
-import React from 'react'
-import NavBar from '../components/NavBar'
-
+import NavBar from "../components/NavBar";
+import useAuth from "../context/useAuth";
 
 const About = () => {
-  return (
-    <div>
-        <NavBar/>
-        <h3>about me!!!!</h3>
-    </div>
-  )
-}
+	const { updateToken } = useAuth();
 
-export default About
+	console.log(updateToken());
+
+	return (
+		<div>
+			<NavBar />
+
+      <button onClick={updateToken}>click me</button>
+			<h3>about me!!!!</h3>
+		</div>
+	);
+};
+
+export default About;
