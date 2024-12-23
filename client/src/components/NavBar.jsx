@@ -1,22 +1,37 @@
-import { Link} from "react-router";
+import { Link } from "react-router";
 import useAuth from "../context/useAuth";
 import { FiMenu } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { IoMdClose } from "react-icons/io";
 
 const NavBar = () => {
-	const {logout} = useAuth()
+	const { logout } = useAuth();
 	const [isOpen, setIsOpen] = useState(false);
+	const menuRef = useAuth()
 
-	const isAuth = () =>{
-		const token = localStorage.getItem('authtoken')
-		if(token){
-			return true
-		}		
-	}
+	useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
 
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+	const isAuth = () => {
+		const token = localStorage.getItem("authtoken");
+		if (token) {
+			return true;
+		}
+	};
 
 	return (
-		<nav className="flex justify-between p-4 shadow-sm items-center relative">
+		<nav ref={menuRef}  className="flex justify-between p-4 shadow-sm items-center relative">
 			<Link to="/">
 				<p className="text-2xl">NoteBuddy</p>
 			</Link>
@@ -30,29 +45,63 @@ const NavBar = () => {
 				<li className="hover:opacity-70">
 					{isAuth() ? (
 						// <button to="/dashboard">Dashboard</button>
-						<button onClick={(e) => logout(e)}>Logout</button>
+						<button onClick={logout}>Logout</button>
 					) : (
 						<Link to="/login">Login</Link>
 					)}
 				</li>
 			</ul>
 
-			{(isOpen) && (
-				<ul className="menu font-sans cursor-pointer  bg-slate-50 absolute right-0 p-2 z-10 top-16 w-full text-[16px]">
+			{isOpen && (
+				<ul className=" lg:hidden menu font-sans cursor-pointer  bg-gray-100 shadow-lg absolute right-0 p-2 z-10 top-16 w-full text-[16px]">
 					<li>
-						<Link to="/home" className="block">Home</Link>
+						<Link
+							to="/home"
+							className="block"
+						>
+							Home
+						</Link>
 					</li>
 					<li>
-						<Link to="/about" className="block">About</Link>
+						<Link
+							to="/about"
+							className="block"
+						>
+							About
+						</Link>
 					</li>
 					<li>
-						{isAuth() ? <Link to="/logout" className="block">Logout</Link>:<Link to="/login" className="block">Login</Link>}
+						{isAuth() ? (
+							<button
+								onClick={logout}
+								className="block"
+							>
+								Logout
+							</button>
+						) : (
+							<Link
+								to="/login"
+								className="block"
+							>
+								Login
+							</Link>
+						)}
 					</li>
 				</ul>
 			)}
-			
-			<FiMenu size={25} onClick={() => setIsOpen((prev) => !prev)} className="sm:hidden"/>
 
+			{isOpen ? (
+				<IoMdClose
+					size={25}
+					onClick={() => setIsOpen(false)}
+				/>
+			) : (
+				<FiMenu
+					size={25}
+					onClick={() => setIsOpen(true)}
+					className="sm:hidden"
+				/>
+			)}
 		</nav>
 	);
 };

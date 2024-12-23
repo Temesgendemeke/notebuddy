@@ -59,7 +59,7 @@ const Search = () => {
 			</div>
 
 			<div className="mt-2 notecard-wrapper flex gap-5 justify-center items-center flex-wrap">
-				{filteredNotes.map((note) => (
+				{filteredNotes.reverse().map((note) => (
 					<NoteCard
 						key={note.id}
 						note={note}

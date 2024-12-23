@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import AuthContext from "./AuthContext";
 import { jwtDecode } from "jwt-decode";
 import PropTypes from "prop-types";
+
+
 
 const AuthProvider = ({ children }) => {
 	const [token, setToken] = useState(() =>
@@ -24,6 +26,8 @@ const AuthProvider = ({ children }) => {
 		confirm_password: "",
 	});
   const [loading, setLoading] = useState(true)
+  const menuRef = useRef(null);
+
  
 
 	// Decode userId after the token has been set
@@ -43,12 +47,12 @@ const AuthProvider = ({ children }) => {
 		setToken(token);
 	};
 
-	const logout = (e=null) => {
-		e && e.preventDefault();
+	const logout = () => {
 		localStorage.removeItem("authtoken");
 		setToken(null);
 		setUserId(null);
 		setUser({});
+    window.location.reload();
 	};
 
 	const handleFormChange = (e) => {
@@ -116,10 +120,11 @@ const AuthProvider = ({ children }) => {
 				setFormError,
 				formError,
 				isAuth,
-        updateToken
+        updateToken,
+        menuRef
 			}}
 		>
-			{loading? null : children}
+			{children}
 		</AuthContext.Provider>
 	);
 };

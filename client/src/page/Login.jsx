@@ -72,7 +72,7 @@ const Login = () => {
 						type="email"
 						name="email"
 						id=""
-						className="input"
+						className="input "
 						placeholder="enter your email address"
 						value={form.email}
 						onChange={(e) => setForm((prev) => ({...prev, email:e.target.value}))}

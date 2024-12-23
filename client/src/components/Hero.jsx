@@ -1,7 +1,10 @@
 import Button from "./Button";
 import inspirationpana from "../assets/inspirationpana.svg";
+import useAuth from "../context/useAuth";
 
 const Hero = () => {
+
+
 	return (
 		<div className="wrapper flex mt-10 justify-evenly items-center max-[637px]:flex-wrap sm:max-lg:flex-wrap">
 			<div className="text-center">
@@ -13,7 +16,7 @@ const Hero = () => {
 					NoteBuddy.
 				</p>
 				<div className="flex justify-center ">
-					<Button name={"get started"} />
+					<Button text={"get started"}/>
 				</div>
 			</div>
 

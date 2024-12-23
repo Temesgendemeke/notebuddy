@@ -29,13 +29,6 @@ const Signup = () => {
 	}, [form])
 	
 
-	useEffect(() => {
-		document
-			.querySelector(".close")
-			.addEventListener("keydown", (event) => handleKeyDown(event));
-	});
-
-
 
 
 	const validateForm = () => {
@@ -66,11 +59,6 @@ const Signup = () => {
 		return true	
 	}
 
-	const handleKeyDown = (event) => {
-		if (event.key == "Escape") {
-			return redirect("/");
-		}
-	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -93,7 +81,7 @@ const Signup = () => {
 		const data = await res.json();
 
 		if (res.ok) {
-			save_authtoken({'access':data.access, 'refresh':data.refresh})
+			save_authtoken({'access':data.token.access, 'refresh':data.token.refresh})
 			setUser(data.user);
 			navigate('/home')
 		}else{
@@ -109,8 +97,11 @@ const Signup = () => {
 
 	return (
 		<>
-			<Link to="/">
-				<IoMdClose className="text-4xl p-5 close" />
+			<Link
+				to="/"
+				className=""
+			>
+				<IoMdClose className="text-4xl p-2" />
 			</Link>
 
 			<div className="flex justify-center items-center mt-5">
