@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import NavBar from "../components/NavBar";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useNavigate, useLocation } from "react-router";
 import { MdDelete } from "react-icons/md";
+import { FaRobot } from "react-icons/fa6";
 import useAuth from "../context/useAuth";
 import useAxios from "../utils/useAxios";
+import Quill from 'quill'
+
 
 
 const Note = () => {
@@ -23,6 +26,7 @@ const Note = () => {
 	
 
 	
+    
 
 
 
@@ -74,6 +78,19 @@ const Note = () => {
 		navigate("/home");
 	};
 
+	const handleGenerate = async (e) =>{
+		e.preventDefault()
+
+		const res = await api.post('note/generate', {
+			title: note.title
+		})
+		console.log(res)
+
+
+
+		setNote((prev)=>({...prev, content:res.data.note}))
+	}
+
 	return (
 		<div className="flex flex-col">
 			<NavBar />
@@ -103,13 +120,21 @@ const Note = () => {
 						}
 					/>
 
-					<div className="delete-btn">
+					<div className="delete-btn flex">
 						<button onClick={handleDelete}>
 							<MdDelete
-								size={25}
+								size={30}
 								color="gray"
 								className="hover:opacity-70"
 							/>
+
+						</button>
+						<button onClick={handleGenerate}>
+							<FaRobot
+							   size={30}
+							   color="gray"
+							   className="hover:opacity-70"
+							   />
 						</button>
 					</div>
 				</div>
