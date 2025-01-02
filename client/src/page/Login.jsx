@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { IoMdClose } from "react-icons/io";
 import { Link, useNavigate} from "react-router";
 import useAuth from "../context/useAuth";
+import NavBar from "../components/NavBar";
+import axios from "axios";
+import { baseURL } from "../utils/constants";
 
 
 
@@ -21,24 +23,17 @@ const Login = () => {
 	const login_btn = async (e) => {
 		e.preventDefault();
 
-		const res = await fetch("http://127.0.0.1:8000/token", {
-			method: "POST",
-			headers: {
-				"content-type": "application/json",
-			},
-			body: JSON.stringify({
-				email: e.target.email.value,
+		const res = await axios.post(`${baseURL}/token`, {
+			email: e.target.email.value,
 				password: e.target.password.value,
-			}),
-		});
+		})
 
-		const data = await res.json();
-
-		if (res.ok) {
-			save_authtoken({'access':data.access, 'refresh':data.refresh})
+	
+		if (res.status >= 200 && res.status < 300) {
+			save_authtoken({'access':res.data.access, 'refresh':res.data.refresh})
 			navigate('/home')
 		}else{
-			Object.entries(data).map(([, value]) =>{
+			Object.entries(res.data).map(([, value]) =>{
 				setError({message:value, show:true})
 			})
 		}
@@ -47,12 +42,7 @@ const Login = () => {
 
 	return (
 		<>
-			<Link
-				to="/"
-				className=""
-			>
-				<IoMdClose className="text-4xl p-2" />
-			</Link>
+			<NavBar/>
 			<div className="flex flex-col justify-center items-center">
 				<h1 className="text-4xl text-center mt-5">Login</h1>
 				{error.show && (

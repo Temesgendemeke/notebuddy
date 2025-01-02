@@ -13,11 +13,11 @@ const About = () => {
 					<h2 className="text-center font-ab font-semibold mt-5 text-xl">
 						Welcome to Note Buddy
 					</h2>
-					<p className="font-ab text-lg text-center">
+					<p className="font-ab text-lg text-center text-gray-600">
 						Your ultimate companion for capturing ideas, staying
 						organized, and unleashing creativity.
 					</p>
-					<p className="font-ab text-lg font-normal text-center">
+					<p className="font-ab text-lg font-normal text-center text-gray-600">
 						At Note Buddy, we believe that great ideas deserve a
 						place to grow. Whether you&apos;re a student jotting
 						down lecture notes, a professional organizing projects,

@@ -3,11 +3,9 @@ import AuthContext from "./AuthContext";
 import { jwtDecode } from "jwt-decode";
 import PropTypes from "prop-types";
 
-
-
 const AuthProvider = ({ children }) => {
-	const [token, setToken] = useState(() =>
-		JSON.parse(localStorage.getItem("authtoken"))
+	const [token, setToken] = useState(
+		() => JSON.parse(localStorage.getItem("authtoken")) || null
 	);
 	const [userId, setUserId] = useState(null);
 	const [user, setUser] = useState({});
@@ -25,10 +23,9 @@ const AuthProvider = ({ children }) => {
 		password: "",
 		confirm_password: "",
 	});
-  const [loading, setLoading] = useState(true)
-  const menuRef = useRef(null);
-
- 
+	const menuRef = useRef(null);
+	const [showSetting, setShowSetting] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	// Decode userId after the token has been set
 	useEffect(() => {
@@ -52,7 +49,7 @@ const AuthProvider = ({ children }) => {
 		setToken(null);
 		setUserId(null);
 		setUser({});
-    window.location.reload();
+		window.location.reload();
 	};
 
 	const handleFormChange = (e) => {
@@ -61,52 +58,11 @@ const AuthProvider = ({ children }) => {
 		setError((prev) => ({ ...prev, show: false }));
 	};
 
-	const updateToken = async () => {
-		const res = await fetch("http://127.0.0.1:8000/token/refresh", {
-			method: "POST",
-			Headers: {
-				content: "application/json",
-			},
-			body: JSON.stringify({ refresh: token.refresh }),
-		});
-
-    let data = res.json();
-
-    if(res.ok){
-      save_authtoken({'access':data.access, 'refresh':data.refresh})
-      setUserId(jwtDecode(data).id)
-    }else{
-      logout()
-    }
-    if(loading){
-      setLoading(false)
-    }
-	};
-
-  useEffect(()=> {
-
-    // if(loading){
-    //     updateToken()
-    // }
-    let fourMinutes = 1000 * 60 * 4
-
-    let interval =  setInterval(()=> {
-        if(token){
-            updateToken()
-        }else{
-          setToken(null)
-          setUserId(null)
-          logout()
-        }
-    }, fourMinutes)
-    return ()=> clearInterval(interval)
-
-}, [token, loading])
-
 	return (
 		<AuthContext.Provider
 			value={{
 				token,
+				setToken,
 				userId,
 				logout,
 				user,
@@ -120,8 +76,9 @@ const AuthProvider = ({ children }) => {
 				setFormError,
 				formError,
 				isAuth,
-        updateToken,
-        menuRef
+				menuRef,
+				showSetting,
+				setShowSetting,
 			}}
 		>
 			{children}
@@ -129,9 +86,7 @@ const AuthProvider = ({ children }) => {
 	);
 };
 
-
-
 AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+	children: PropTypes.node.isRequired,
 };
 export default AuthProvider;

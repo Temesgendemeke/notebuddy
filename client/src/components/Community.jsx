@@ -1,4 +1,3 @@
-import React from "react";
 import Button from "./Button";
 
 const Community = () => {
@@ -8,10 +7,11 @@ const Community = () => {
 			<p className="min-sm:w-1/2 lg:w-1/2  text-center max-sm:text-left  font-ab p-5 max-sm:text-[16px] text-[#797575]">
 				Join thousands of users who trust Note Buddy to keep their
 				thoughts organized. Our community of students, professionals,
+	
 				and creatives is expanding every day. Be part of a growing group
 				that values efficiency, creativity, and simplicity in
 				note-taking.
-			</p>
+				</p>
             <Button text={"join"}/>
 		</div>
 	);

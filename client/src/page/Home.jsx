@@ -3,7 +3,7 @@ import Search from "../components/Search";
 
 const Home = () => {
   return (
-    <div >
+    <div>
       <NavBar />
       <Search />
     </div>

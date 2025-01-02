@@ -6,33 +6,33 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { useNavigate, useLocation } from "react-router";
 import { MdDelete } from "react-icons/md";
 import useAuth from "../context/useAuth";
+import useAxios from "../utils/useAxios";
+
 
 const Note = () => {
+	const location = useLocation()
+	const {id} = location.state || null
 	const { userId, token } = useAuth();
-	const location = useLocation();
 	const navigate = useNavigate();
-	const [noteId, setNoteId] = useState();
 	const [mode, setMode] = useState("create");
 	const [note, setNote] = useState({
 		title: "",
 		content: "",
 	});
+	const api = useAxios()
+	
+
+	
 
 
 
 
 	useEffect(() => {
+
 		const fetchNote = async () => {
 			if (location.state) {
-				const res = await fetch(`http://127.0.0.1:8000/note/`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				});
-				const data = await res.json();
-				console.log(data)
-				setNote({ title: data.title, content: data.title });
-				setNoteId(data.id);
+				const res = await api.get(`/note/${id}`)
+				setNote({ title: res.data.title, content: res.data.content });
 				setMode("update");
 			}
 		};
@@ -43,16 +43,10 @@ const Note = () => {
 	const handleUpdate = async (e) => {
 		e.preventDefault();
 
-		await fetch(`http://127.0.0.1:8000/note/${noteId}/update`, {
-			method: "PATCH",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				title: note.title,
-				content: note.content,
-			}),
-		});
+		api.patch(`/note/${id}/update`, {
+			title: note.title,
+			content: note.content,
+		})
 		navigate("/home");
 	};
 
@@ -64,26 +58,19 @@ const Note = () => {
 			return;
 		}
 
-		await fetch(`http://127.0.0.1:8000/note/create`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				title: note.title,
+		api.post('/note/create', {
+			title: note.title,
 				content: note.content,
 				user: userId,
-			}),
-		});
+		})
 		navigate("/home");
 	};
 
 	const handleDelete = async (e) => {
 		e.preventDefault();
 
-		await fetch(`http://127.0.0.1:8000/note/${noteId}/delete`, {
-			method: "DELETE",
-		});
+
+		api.delete(`/note/${id}/delete`)
 		navigate("/home");
 	};
 

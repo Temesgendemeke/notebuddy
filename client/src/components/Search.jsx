@@ -1,35 +1,28 @@
 import { useEffect, useState } from "react";
-// import { LuPlusCircle } from "react-icons/lu";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import NoteCard from "./NoteCard";
 import { Link } from "react-router";
 import useAuth from "../context/useAuth";
+import useAxios from "../utils/useAxios";
 
 const Search = () => {
-	const { token } = useAuth();
+	const { token, showSetting } = useAuth();
 	const [notes, setNotes] = useState([]);
 	const [filteredNotes, setFilteredNotes] = useState([]);
+	const api = useAxios()
+
+	const fetchNotes = async () =>{
+		const response = await api.get('/note/')
+		if (typeof response.data == "object") {
+			setNotes(response.data);
+			setFilteredNotes(response.data);
+		}
+	}
+
 
 	useEffect(() => {
-		fetch(`http://127.0.0.1:8000/note/`, {
-			headers: {
-				Authorization: `Bearer ${token.access}`,
-			},
-		})
-			.then((res) => res.json())
-			.then((data) => {
-				console.log(data);
-        if(typeof data == "object"){
-          setNotes(data);
-          setFilteredNotes(data);
-        }
-			
-			});
+		fetchNotes()
 	}, []);
-
-	// const handleAdd = () => {
-	// 	setShow((prev) => !prev);
-	// };
 
 	const handleSearch = (e) => {
 		const userinput = e.target.value.toLocaleLowerCase();
@@ -44,7 +37,7 @@ const Search = () => {
 			<div className="flex-center relative">
 				<div
 					action=""
-					className=" mt-10 my-10 flex  justify-between bg-red  search-box "
+					className=" mt-10 my-10 flex  justify-between bg-red  search-box"
 				>
 					<input
 						type="text"

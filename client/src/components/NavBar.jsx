@@ -5,10 +5,10 @@ import { useEffect, useState, useRef } from "react";
 import { IoMdClose } from "react-icons/io";
 
 const NavBar = () => {
-	const { logout } = useAuth();
+	const { logout, setShowSetting, showSetting } = useAuth();
 	const [isOpen, setIsOpen] = useState(false);
 	const menuRef = useAuth()
-
+	
 	useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -30,6 +30,7 @@ const NavBar = () => {
 		}
 	};
 
+
 	return (
 		<nav ref={menuRef}  className="flex justify-between p-4 shadow-sm items-center relative">
 			<Link to="/">
@@ -44,13 +45,14 @@ const NavBar = () => {
 				</li>
 				<li className="hover:opacity-70">
 					{isAuth() ? (
-						// <button to="/dashboard">Dashboard</button>
 						<button onClick={logout}>Logout</button>
 					) : (
 						<Link to="/login">Login</Link>
 					)}
-				</li>
+				</li> 
 			</ul>
+
+			
 
 			{isOpen && (
 				<ul className=" lg:hidden menu font-sans cursor-pointer  bg-gray-100 shadow-lg absolute right-0 p-2 z-10 top-16 w-full text-[16px]">

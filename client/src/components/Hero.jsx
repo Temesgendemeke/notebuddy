@@ -1,6 +1,5 @@
 import Button from "./Button";
 import inspirationpana from "../assets/inspirationpana.svg";
-import useAuth from "../context/useAuth";
 
 const Hero = () => {
 

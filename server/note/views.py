@@ -23,7 +23,7 @@ def CreateNoteView(request):
 
 # read
 @api_view(['GET'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def NoteView(request):
     notes = Note.objects.filter(user=request.user)
     print(notes)
@@ -33,8 +33,8 @@ def NoteView(request):
 # read 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def NoteDetail(request,user_id, id):
-    note = Note.objects.filter(user_id=user_id,id=id).first()
+def NoteDetail(request, id):
+    note = Note.objects.filter(user=request.user,id=id).first()
 
     if note:
         serializer = NoteSerializer(note)
