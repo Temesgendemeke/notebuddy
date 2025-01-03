@@ -20,7 +20,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=True)
 
-ALLOWED_HOSTS = env.list("ALLOW_HOSTS", default=['*'])
+ALLOWED_HOSTS = env.list("ALLOW_HOSTS", default=["*"])
 
 GEMINI_KEY = env("GEMINI_KEY")
 
@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "corsheaders",
-    'rest_framework_simplejwt.token_blacklist',
+    "rest_framework_simplejwt.token_blacklist",
     # local
     "account.apps.AccountConfig",
     "note.apps.NoteConfig",
@@ -76,11 +76,14 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": env("DATABASE_NAME"),
+        "USER": env("DATABASE_USER"),
+        "PASSWORD": env("DATABASE_PASSWORD"),
+        "HOST": env("DATABASE_HOST"),  # Use '127.0.0.1' if 'localhost' doesn't work
+        "PORT": env("DATABASE_PORT"),
     }
 }
 
@@ -124,7 +127,7 @@ STATIC_URL = "static/"
 MEDIA_URL = "/media/"
 MEDIA_URL_ROOT = BASE_DIR / "media"
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # Or another directory of your choice
+STATIC_ROOT = BASE_DIR / "staticfiles"  # Or another directory of your choice
 
 
 # Default primary key field type
@@ -140,23 +143,23 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-      ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
     ],
 }
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=90),
-    'ROTATE_REFRESH_TOKENS': True,  # Rotate refresh tokens after use
-    'BLACKLIST_AFTER_ROTATION': True,  # Blacklist old refresh tokens
-    'AUTH_HEADER_TYPES': ('Bearer',),  # Use 'Bearer <token>'
-    'UPDATE_LAST_LOGIN': True,  # Update last login on refresh
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=90),
+    "ROTATE_REFRESH_TOKENS": True,  # Rotate refresh tokens after use
+    "BLACKLIST_AFTER_ROTATION": True,  # Blacklist old refresh tokens
+    "AUTH_HEADER_TYPES": ("Bearer",),  # Use 'Bearer <token>'
+    "UPDATE_LAST_LOGIN": True,  # Update last login on refresh
 }
 
 
-AUTH_USER_MODEL = 'account.CustomUser'
+AUTH_USER_MODEL = "account.CustomUser"
