@@ -1,127 +1,137 @@
 # Notebuddy
 
-**Notebuddy** is a note-taking application designed to help users efficiently create, manage, and organize their notes. Built with a Django backend and a React frontend, Notebuddy offers a seamless and responsive user experience.
+**Notebuddy** is a powerful and user-friendly note-taking app built with Django for the backend and React for the frontend. It supports  text customization, and photo uploads, providing a streamlined and customizable experience for users. Inspired by tools like Notion, Notebuddy aims to simplify organizing thoughts, tasks, and ideas in one place.
 
 ## Features
 
-- **User Authentication**: Secure user registration and login functionality.
-- **CRUD Operations**: Create, Read, Update, and Delete notes directly from the frontend.
-- **Responsive Design**: Optimized for various devices, ensuring accessibility on desktops, tablets, and mobile phones.
-- **About Page**: Provides information about the application and its purpose.
+- **Text Customization**: Style your notes with bold, italics, underline, and other text formatting options.
+- **Photo Uploads**: Add images to your notes for better visualization and context.
+- **AI-Powered Note-Taking**: Leverage artificial intelligence to generate summaries, insights, and suggestions for your notes.
+- **Responsive Design**: Access your notes seamlessly across desktop and mobile devices.
+- **Secure Backend**: Powered by Django, ensuring data integrity and security.
 
 ## Tech Stack
 
-- **Backend**:
-  - Django
-  - Django REST Framework
-- **Frontend**:
-  - React
-  - JavaScript
-  - HTML/CSS
+### Backend:
+- [Django](https://www.djangoproject.com/)
+- [Django REST Framework (DRF)](https://www.django-rest-framework.org/)
+- MySQL (or any preferred database)
+
+### Frontend:
+- [React](https://reactjs.org/)
+- Tailwind CSS (for styling)
 
 ## Getting Started
 
 ### Prerequisites
 
-- **Backend**:
-  - Python 3.10+
-  - Django 4.0+
-- **Frontend**:
-  - Node.js 16+
-  - npm 8+
+- Python 3.10+
+- Node.js 16+
+- MySQL (or any configured database)
+- Virtual environment manager (e.g., `venv` or `pipenv`)
 
-### Installation
+### Setup Instructions
 
-1. **Clone the repository**:
-
+#### Backend
+1. Clone the repository:
    ```bash
-   git clone https://github.com/Temesgendemeke/notebuddy.git
-   cd notebuddy
+   git clone https://github.com/yourusername/notebuddy.git
+   cd notebuddy/server
+   ```
+2. Set up a virtual environment and activate it:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate
+   ```
+3. Install the requirements:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Set up the `.env` file:
+   ```env
+   SECRET_KEY=your-secret-key
+   DEBUG=True
+   DATABASE_URL=mysql://user:password@localhost:3306/notebuddy
+   ```
+5. Apply migrations:
+   ```bash
+   python manage.py migrate
+   ```
+6. Run the development server:
+   ```bash
+   python manage.py runserver
    ```
 
-2. **Backend Setup**:
+#### Frontend
+1. Navigate to the `client` folder:
+   ```bash
+   cd ../client
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm start
+   ```
 
-   - Navigate to the server directory:
+### Running Tests
 
-     ```bash
-     cd server
-     ```
+#### Backend Tests
+```bash
+python manage.py test
+```
 
-   - Create a virtual environment and activate it:
+#### Frontend Tests
+```bash
+npm test
+```
 
-     ```bash
-     python -m venv venv
-     source venv/bin/activate  # On Windows: venv\Scripts\activate
-     ```
+## Project Structure
 
-   - Install the required packages:
-
-     ```bash
-     pip install -r requirements.txt
-     ```
-
-   - Apply migrations:
-
-     ```bash
-     python manage.py migrate
-     ```
-
-   - Create a superuser for accessing the Django admin panel:
-
-     ```bash
-     python manage.py createsuperuser
-     ```
-
-   - Start the backend server:
-
-     ```bash
-     python manage.py runserver
-     ```
-
-3. **Frontend Setup**:
-
-   - Navigate to the client directory:
-
-     ```bash
-     cd ../client
-     ```
-
-   - Install the required packages:
-
-     ```bash
-     npm install
-     ```
-
-   - Start the frontend development server:
-
-     ```bash
-     npm start
-     ```
-
-   - Access the application at `http://localhost:3000`.
-
-## Usage
-
-- **User Authentication**: Register a new account or log in with existing credentials.
-- **Create Notes**: Use the "New Note" button to create a note.
-- **Edit Notes**: Click on an existing note to edit its content.
-- **Delete Notes**: Use the delete option to remove a note.
-- **About Page**: Learn more about Notebuddy and its features.
+```plaintext
+notebuddy/
+├── server/       # Backend Django app
+│   ├── account/  # User authentication and profile management
+│   ├── notes/    # Note-related models, views, and APIs
+│   ├── settings/ # Django settings
+│   └── ...
+├── frontend/     # Frontend React app
+│   ├── src/      # React components and logic
+│   ├── public/   # Static assets
+│   └── ...
+└── README.md     # Project documentation
+```
 
 ## Contributing
 
-Contributions are welcome! Please follow these steps:
+We welcome contributions from the community! To get started:
 
 1. Fork the repository.
-2. Create a new branch: `git checkout -b feature-name`.
-3. Make your changes and commit them: `git commit -m 'Add new feature'`.
-4. Push to the branch: `git push origin feature-name`.
-5. Submit a pull request.
+2. Create a new branch for your feature or bug fix:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m "Add your message here"
+   ```
+4. Push to your branch:
+   ```bash
+   git push origin feature-name
+   ```
+5. Open a pull request.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the `LICENSE` file for details.
 
-## Contact
+## Acknowledgments
 
-For any inquiries or feedback, please contact [Temesgen Demeke](https://github.com/Temesgendemeke).
+- [Django Documentation](https://docs.djangoproject.com/)
+- [React Documentation](https://reactjs.org/docs/)
+
+---
+
+Made with ❤️ by [Syfu](https://github.com/temesgendemeke).
