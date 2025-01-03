@@ -40,26 +40,22 @@ const Login = () => {
 			return;
 		}
 
-		const res = await axios.post(`${baseURL}/token`, {
+		await axios.post(`${baseURL}/token`, {
 			email: e.target.email.value,
 			password: e.target.password.value,
-		});
-
-		if (res.status >= 200 && res.status < 300) {
+		})
+		.then((res) =>{
 			save_authtoken({
 				access: res.data.access,
 				refresh: res.data.refresh,
-			});
+			})
 			navigate("/home");
-		} else {
-			Object.entries(res.data).map(([, value]) => {
-				setError({ message: value, show: true });
-			});
-		}
+		}).catch((err)=>{
+			setError({ message: err.response.data.detail, show: true });
+		})
 	};
 
 	const onChange = () => {
-		console.log("capured");
 		setCapVal(true);
 	};
 
