@@ -4,13 +4,16 @@ import useAuth from "../context/useAuth";
 import NavBar from "../components/NavBar";
 import axios from "axios";
 import { baseURL } from "../utils/constants";
+import ReCAPTCHA from "react-google-recaptcha";
+
 
 const Signup = () => {
 	const {
 		save_authtoken,
 		setUser,
 		error,
-		setError
+		setError,
+		CAPTCHA_KEY
 	} = useAuth();
 
 	const navigate = useNavigate();
@@ -24,6 +27,8 @@ const Signup = () => {
 		password:'',
 		confirm_password:''
 	})
+	const [capVal, setCapVal] = useState(false)
+
 
 	
 	useEffect(()=>{
@@ -162,10 +167,15 @@ const Signup = () => {
 						}
 					/>
 					<p className="error-msg text-red-400">{formError.confirm_password}</p>
+					<ReCAPTCHA
+						sitekey={CAPTCHA_KEY}
+						onChange={() => setCapVal(true)}
+					/>
 					<input
 						type="submit"
 						value="Signup"
-						className="input bg-gray-950 text-white "
+						disabled={!capVal}
+						className="input bg-gray-950 text-white disabled:opacity-50"
 					/>
 					<span className="text-center ">
 						if you have an account, <Link to="/login">Login</Link>

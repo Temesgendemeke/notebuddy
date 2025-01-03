@@ -9,12 +9,13 @@ import { FaRobot } from "react-icons/fa6";
 import useAuth from "../context/useAuth";
 import useAxios from "../utils/useAxios";
 import Quill from 'quill'
+import Loading from "../components/Loading";
 
 
 
 const Note = () => {
 	const location = useLocation()
-	const {id} = location.state || null
+	const {id} = location.state || {}
 	const { userId, token } = useAuth();
 	const navigate = useNavigate();
 	const [mode, setMode] = useState("create");
@@ -22,7 +23,9 @@ const Note = () => {
 		title: "",
 		content: "",
 	});
+	const [loading, setLoading] = useState(false)
 	const api = useAxios()
+	
 	
 
 	
@@ -80,20 +83,17 @@ const Note = () => {
 
 	const handleGenerate = async (e) =>{
 		e.preventDefault()
-
+		setLoading(true)
 		const res = await api.post('note/generate', {
 			title: note.title
 		})
-		console.log(res)
-
-
-
+		setLoading((prev) => !prev)
 		setNote((prev)=>({...prev, content:res.data.note}))
 	}
 
 	return (
 		<div className="flex flex-col">
-			<NavBar />
+		
 			<div>
 				<div className="size-fit ">
 					<button
@@ -138,14 +138,14 @@ const Note = () => {
 						</button>
 					</div>
 				</div>
-				<ReactQuill
+				{loading? <Loading/>:<ReactQuill
 					theme="snow"
 					value={note.content}
 					onChange={(content) =>
 						setNote((prev) => ({ ...prev, content }))
 					}
 					className="h-screen"
-				/>
+				/>}
 			</div>
 		</div>
 	);

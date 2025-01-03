@@ -25,7 +25,7 @@ const AuthProvider = ({ children }) => {
 	});
 	const menuRef = useRef(null);
 	const [showSetting, setShowSetting] = useState(false);
-	const [loading, setLoading] = useState(true);
+	const CAPTCHA_KEY = import.meta.env.VITE_CAPTCHA;
 
 	// Decode userId after the token has been set
 	useEffect(() => {
@@ -79,6 +79,7 @@ const AuthProvider = ({ children }) => {
 				menuRef,
 				showSetting,
 				setShowSetting,
+				CAPTCHA_KEY,
 			}}
 		>
 			{children}
