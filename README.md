@@ -133,5 +133,3 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 - [React Documentation](https://reactjs.org/docs/)
 
 ---
-
-Made with ❤️ by [Syfu](https://github.com/temesgendemeke).
