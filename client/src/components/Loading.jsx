@@ -1,8 +1,6 @@
-import React from 'react'
-
 const Loading = () => {
   return (
-    <div class="loader"></div> 
+    <div className="loader"></div> 
   )
 }
 

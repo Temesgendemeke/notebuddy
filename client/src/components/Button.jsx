@@ -5,8 +5,6 @@ import useAuth from "../context/useAuth";
 const Button = ({text}) => {
   const {isAuth} = useAuth();
 
-
-
 	return (
 
 		<div

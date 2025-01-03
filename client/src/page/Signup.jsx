@@ -36,8 +36,6 @@ const Signup = () => {
 	}, [form])
 	
 
-
-
 	const validateForm = () => {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

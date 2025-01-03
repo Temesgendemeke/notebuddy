@@ -1,5 +1,4 @@
-import { useEffect, useState, useRef } from "react";
-import NavBar from "../components/NavBar";
+import { useEffect, useState} from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { IoIosArrowRoundBack } from "react-icons/io";
@@ -8,15 +7,13 @@ import { MdDelete } from "react-icons/md";
 import { FaRobot } from "react-icons/fa6";
 import useAuth from "../context/useAuth";
 import useAxios from "../utils/useAxios";
-import Quill from 'quill'
 import Loading from "../components/Loading";
-
 
 
 const Note = () => {
 	const location = useLocation()
 	const {id} = location.state || {}
-	const { userId, token } = useAuth();
+	const { userId} = useAuth();
 	const navigate = useNavigate();
 	const [mode, setMode] = useState("create");
 	const [note, setNote] = useState({
@@ -26,13 +23,6 @@ const Note = () => {
 	const [loading, setLoading] = useState(false)
 	const api = useAxios()
 	
-	
-
-	
-    
-
-
-
 
 	useEffect(() => {
 

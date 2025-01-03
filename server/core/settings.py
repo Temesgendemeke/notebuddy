@@ -22,6 +22,8 @@ DEBUG = env.bool("DEBUG", default=True)
 
 ALLOWED_HOSTS = env.list("ALLOW_HOSTS", default=['*'])
 
+GEMINI_KEY = env("GEMINI_KEY")
+
 
 # Application definition
 

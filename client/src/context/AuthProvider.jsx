@@ -27,13 +27,13 @@ const AuthProvider = ({ children }) => {
 	const [showSetting, setShowSetting] = useState(false);
 	const CAPTCHA_KEY = import.meta.env.VITE_CAPTCHA;
 
-	// Decode userId after the token has been set
+	
 	useEffect(() => {
 		if (token) {
 			const decodedToken = jwtDecode(token.access);
 			setUserId(decodedToken.user_id);
 		}
-	}, [token]); // Runs only when token changes
+	}, [token]); 
 
 	const isAuth = () => {
 		return token ? true : false;

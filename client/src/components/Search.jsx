@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import NoteCard from "./NoteCard";
 import { Link } from "react-router";
-import useAuth from "../context/useAuth";
 import useAxios from "../utils/useAxios";
 
 const Search = () => {
-	const { token, showSetting } = useAuth();
 	const [notes, setNotes] = useState([]);
 	const [filteredNotes, setFilteredNotes] = useState([]);
 	const api = useAxios()

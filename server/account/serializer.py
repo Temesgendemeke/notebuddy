@@ -6,7 +6,6 @@ from .models import CustomUser
 class UserSerializer(serializers.ModelSerializer):
      password = serializers.CharField(write_only=True)
 
-
      def validate_email(self, email):
         if '@' not in email:
             raise serializers.ValidationError("invalid error")

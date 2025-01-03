@@ -1,35 +1,14 @@
 import { Link } from "react-router";
 import useAuth from "../context/useAuth";
 import { FiMenu } from "react-icons/fi";
-import { useEffect, useState, useRef } from "react";
+import {  useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
 const NavBar = () => {
-	const { logout, setShowSetting, showSetting } = useAuth();
+	const { logout, isAuth } = useAuth();
 	const [isOpen, setIsOpen] = useState(false);
 	const menuRef = useAuth()
 	
-	useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
-                setIsOpen(false);
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
-
-	const isAuth = () => {
-		const token = localStorage.getItem("authtoken");
-		if (token) {
-			return true;
-		}
-	};
-
 
 	return (
 		<nav ref={menuRef}  className="flex justify-between p-4 shadow-sm items-center relative">

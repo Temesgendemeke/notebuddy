@@ -5,15 +5,9 @@ from .models import Note
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 import google.generativeai as genai
-import environ
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent
+from django.conf import settings
 
 
-env = environ.Env()
-
-environ.Env.read_env(env_file=BASE_DIR / ".env")
 
 # Create your views here.
 
@@ -36,7 +30,6 @@ def CreateNoteView(request):
 @permission_classes([IsAuthenticated])
 def NoteView(request):
     notes = Note.objects.filter(user=request.user)
-    print(notes)
     serializer = NoteSerializer(notes, many=True)
     return Response(serializer.data)
 
@@ -83,14 +76,15 @@ def deleteNoteView(request, id):
 
 
 # generate note
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def generate_note(request):
     title = request.data.get('title') or None
     if title:
         custom_query = f"generate rich text  {title}"
     else:
         return Response({})
-    genai.configure(api_key=env("GEMINI_KEY"))
+    genai.configure(api_key=settings.GEMINI_KEY)
     model = genai.GenerativeModel("gemini-1.5-flash")
     res = model.generate_content(custom_query)
     return Response({"note":res.text}, status=status.HTTP_200_OK)
